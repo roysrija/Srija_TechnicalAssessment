@@ -6,12 +6,12 @@ A geospatial analytics pipeline for detecting land-surface changes at an open-pi
 
 This project implements a complete change detection workflow:
 
-1. **Data Preparation** — Load, validate, and stack Sentinel-2 bands (Blue, Green, Red)
-2. **Change Detection** — Spectral Euclidean Distance with Otsu's automatic thresholding
-3. **Feature Extraction** — Convert raster changes to vector polygons with attributes
-4. **Database Storage** — Store results in a queryable SQLite database
-5. **Visualization** — Interactive HTML map and static analysis plots
-6. **Interpretation** — Analytical report with findings and limitations
+1. **Data Preparation** - Load, validate, and stack Sentinel-2 bands (Blue, Green, Red)
+2. **Change Detection** - Spectral Euclidean Distance with Otsu's automatic thresholding
+3. **Feature Extraction** - Convert raster changes to vector polygons with attributes
+4. **Database Storage** - Store results in a queryable SQLite database
+5. **Visualization** - Interactive HTML map and static analysis plots
+6. **Interpretation** - Analytical report with findings and limitations
 
 ## Repository Structure
 
@@ -147,17 +147,17 @@ Each change polygon receives a confidence score (0–1) based on how far its pix
 
 ## Assumptions
 
-1. **CRS consistency** — All input bands share the same Coordinate Reference System (EPSG:32735, UTM Zone 35S). This is verified programmatically.
+1. **CRS consistency** - All input bands share the same Coordinate Reference System (EPSG:32735, UTM Zone 35S). This is verified programmatically.
 
-2. **NoData handling** — Pixels with value 0 in any band are treated as NoData and excluded from analysis. Both dates have the same NoData footprint (26,069 pixels at the image edges).
+2. **NoData handling** - Pixels with value 0 in any band are treated as NoData and excluded from analysis. Both dates have the same NoData footprint (26,069 pixels at the image edges).
 
-3. **Atmospheric conditions** — The analysis assumes both dates have comparable atmospheric conditions. As noted in the report, Date 1 (August 12) shows apparent atmospheric haze, which inflates the detected change proportion. Dark Channel Prior (DCP) dehazing was applied to combat this.
+3. **Atmospheric conditions** - The analysis assumes both dates have comparable atmospheric conditions. As noted in the report, Date 1 (August 12) shows apparent atmospheric haze, which inflates the detected change proportion. Dark Channel Prior (DCP) dehazing was applied to combat this.
 
-4. **Input Constraints (Merging scan gap)** — The September (Date 2) imagery features horizontal spacing constraints / mosaic scan gaps. While algorithms were applied to mask these rows during polygonization, residual data near the seams still mathematically triggers as physical change. These are documented data artifacts, not true geographical movement.
+4. **Input Constraints (Merging scan gap)** - The September (Date 2) imagery features horizontal spacing constraints / mosaic scan gaps. While algorithms were applied to mask these rows during polygonization, residual data near the seams still mathematically triggers as physical change. These are documented data artifacts, not true geographical movement.
 
-5. **Minimum polygon size** — Polygons smaller than 500 m² (approximately 50 pixels) are filtered out to reduce noise in the vector output.
+5. **Minimum polygon size** - Polygons smaller than 500 m² (approximately 50 pixels) are filtered out to reduce noise in the vector output.
 
-6. **Temporal context** — A 21-day interval between dates is short enough that most detected spectral changes represent either real surface modification (e.g. mining) or the atmospheric/scan effects noted above, rather than long-term seasonal transitions.
+6. **Temporal context** - A 21-day interval between dates is short enough that most detected spectral changes represent either real surface modification (e.g. mining) or the atmospheric/scan effects noted above, rather than long-term seasonal transitions.
 
 ## Querying the Database
 
@@ -187,8 +187,8 @@ conn.close()
 
 ## Future Extensions
 
-- **Machine learning classification** — Supervised classification of change types (mining expansion, vegetation loss, water change)
-- **Atmospheric correction** — Pre-processing using Scene Classification Layer (SCL) to mask hazy/cloudy pixels
-- **Multi-temporal analysis** — Using 5+ dates for more robust time-series change detection
-- **QGIS plugin** — Wrapping the pipeline into an interactive QGIS plugin with a graphical interface
-- **Machine learning classification** — Supervised classification of change types (mining expansion, vegetation loss, water change)
+- **Machine learning classification** - Supervised classification of change types (mining expansion, vegetation loss, water change)
+- **Atmospheric correction** - Pre-processing using Scene Classification Layer (SCL) to mask hazy/cloudy pixels
+- **Multi-temporal analysis** - Using 5+ dates for more robust time-series change detection
+- **QGIS plugin** - Wrapping the pipeline into an interactive QGIS plugin with a graphical interface
+- **Machine learning classification** - Supervised classification of change types (mining expansion, vegetation loss, water change)
